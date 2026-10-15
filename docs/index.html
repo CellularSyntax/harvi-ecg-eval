@@ -7,7 +7,10 @@
 <meta name="description" content="HARVI-ECG: heart-failure readouts from a standard 10-second 12-lead ECG. Research use only.">
 <meta property="og:title" content="HARVI-ECG">
 <meta property="og:description" content="Heart-failure readouts from a standard 10-second 12-lead ECG">
-<link rel="icon" href="assets/harvi_ecg_logo.png">
+<link rel="icon" href="assets/favicon.ico" sizes="16x16 32x32 48x48 64x64">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <script>document.documentElement.classList.add('js');try{var m=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!m&&!location.hash&&!sessionStorage.getItem('harvi-ov')){document.documentElement.classList.add('ov');sessionStorage.setItem('harvi-ov','1')}}catch(e){}</script>
 <style>
 :root{--teal:#6a00a8;--petrol:#e16462;--base:#7a7a7a;--pub:#c9c9c9;--ink:#1a1430;--ink2:#4a4560;--amber:#f89540;--rule:#e3e3e3;--tint:#f3f3f2;--tealtint:#f3ecfa;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -21,6 +24,7 @@ button{font:inherit;color:inherit}
 nav.top{position:sticky;top:0;z-index:50;background:linear-gradient(90deg,#fca636,#e16462 40%,#b12a90 70%,#6a00a8) top/100% 3px no-repeat,rgba(255,255,255,.86);padding-top:3px;-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--rule)}
 nav.top .wrap{display:flex;align-items:center;gap:16px;height:56px}
 .brand{display:flex;align-items:center;gap:8px;font-weight:650;color:var(--ink);text-decoration:none;white-space:nowrap;flex:none}
+.brand{flex-shrink:0}
 .brand img{height:28px;width:auto;display:block}
 .links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0}
 .links::-webkit-scrollbar{display:none}
@@ -270,7 +274,7 @@ details[open]>summary::before{transform:rotate(45deg)}
 <body>
 <nav class="top" aria-label="Sections">
  <div class="wrap">
-  <a class="brand" href="#top" aria-label="HARVI-ECG, back to top"><img src="assets/harvi_logo_nav.png" alt="HARVI-ECG" width="110" height="28"></a>
+  <a class="brand" href="#top" aria-label="HARVI-ECG, back to top"><img src="assets/harvi_logo_nav.png" alt="HARVI-ECG" width="175" height="28"></a>
   <button class="menu" id="menu" aria-expanded="false" aria-controls="links">Menu</button>
   <div class="links" id="links">
    <a href="#numbers">Numbers</a><a href="#method">Method</a><a href="#readout">NT-proBNP</a><a href="#transfer">Transfer</a><a href="#baseline">Baseline</a><a href="#shd">SHD module</a><a href="#benchmark">Benchmark</a><a href="#outlook">Outlook</a><a href="#release">Release</a>
