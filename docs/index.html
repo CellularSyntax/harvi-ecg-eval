@@ -38,6 +38,7 @@ nav.top .wrap{display:flex;align-items:center;gap:16px;height:56px}
 .hero h1{font-size:clamp(44px,7vw,96px);line-height:1;margin:0;letter-spacing:-.035em;font-weight:720;white-space:nowrap}
 .hero h1 .w{display:inline-block;white-space:nowrap}
 .hero h1 .ch{display:inline-block}
+.hero h1 .lt{font-weight:400}
 .tag{font-size:clamp(19px,2.2vw,25px);line-height:1.35;margin:28px 0 8px;max-width:720px;text-wrap:balance;font-weight:450}
 .aff{color:var(--ink2);margin:0 0 28px;font-size:15px}
 .btns{display:flex;flex-wrap:wrap;gap:10px}
@@ -285,7 +286,7 @@ details[open]>summary::before{transform:rotate(45deg)}
 <header class="hero wrap" id="top">
  <div class="hero-row">
   <svg class="hero-trace" id="trace" aria-hidden="true"></svg>
-  <h1 id="title" aria-label="HARVI-ECG">HARVI-ECG</h1>
+  <h1 id="title" aria-label="HARVI-ECG">HARVI<span class="lt">-ECG</span></h1>
  </div>
  <div class="after">
   <p class="tag" id="tagline"></p>
@@ -541,7 +542,7 @@ const menu=$('#menu'),links=$('#links');menu.addEventListener('click',()=>{const
 links.addEventListener('click',e=>{if(e.target.closest('a')){menu.setAttribute('aria-expanded','false');links.classList.remove('open')}});
 
 /* overture + trace */
-const h1=$('#title');{let k=0;h1.innerHTML=h1.textContent.split(' ').map((w,wi)=>`<span class="w" aria-hidden="true">${[...w].map(ch=>`<span class="ch" style="--d:${(0.85+wi*0.2+(k++)*0.045).toFixed(3)}s">${esc(ch)}</span>`).join('')}</span>`).join(' ')}
+const h1=$('#title');{let k=0;h1.innerHTML=h1.textContent.split(' ').map((w,wi)=>`<span class="w" aria-hidden="true">${[...w].map((ch,ci)=>`<span class="ch${w.includes('-')&&ci>=w.indexOf('-')?' lt':''}" style="--d:${(0.85+wi*0.2+(k++)*0.045).toFixed(3)}s">${esc(ch)}</span>`).join('')}</span>`).join(' ')}
 const root=document.documentElement;const endOv=()=>root.classList.remove('ov');
 if(root.classList.contains('ov')){addEventListener('scroll',endOv,{once:true,passive:true});addEventListener('keydown',endOv,{once:true});setTimeout(endOv,3600)}
 const trace=(()=>{const sv=$('#trace');const PXS=150,GAP=26;let w,h,P,buf,head=0,last=0,vis=true,raf=0;

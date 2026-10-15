@@ -17,6 +17,7 @@
   <a href="https://huggingface.co/maxhaberbusch/HARVI-ECG"><img src="https://img.shields.io/badge/Hugging%20Face-weights%20on%20request-FFD21E?logo=huggingface&logoColor=black" alt="Model weights on Hugging Face (on request)"></a>
   <a href="docs/preregistration.md"><img src="https://img.shields.io/badge/analysis-pre--specified-546E7A" alt="Pre-specified analysis"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-8D6E63" alt="MIT licence"></a>
+  <a href="https://github.com/CellularSyntax/harvi-ecg-eval/actions/workflows/consistency.yml"><img src="https://github.com/CellularSyntax/harvi-ecg-eval/actions/workflows/consistency.yml/badge.svg" alt="Consistency checks"></a>
 </p>
 
 ---

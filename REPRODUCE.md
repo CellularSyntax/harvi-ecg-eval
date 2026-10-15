@@ -62,5 +62,8 @@ python docs/make_readme.py                                                     #
 
 Scoring (steps 8–9) needs only the exported predictions and the Python packages listed above. Full re-training additionally needs the unpublished training stack and is not provided as a standalone package. Conventions used throughout: patient-grouped `GroupKFold(5)` on MIMIC-IV; canonical 12-lead order, checked by `src/checks/`; Emory aVL/aVF rebuilt from I and II; age bands < 50, 50–75, > 75 years for the age-adjusted rule-in; one ECG per patient in all external test sets.
 
+## Consistency checks
+`python checks/consistency.py` (run by GitHub Actions on every push, `.github/workflows/consistency.yml`) checks that the public materials agree with each other. It needs no patient-level data. It verifies that every Python file parses; that `README.md` is exactly what `docs/make_readme.py` generates from `results/`; that the website's embedded data equals `docs/site_data.json`; that the website loads no external resources; that every local link resolves; that the website's report copy equals `report/harvi_results_report.pdf`; and that `CITATION.cff` validates against the CFF schema. After changing `results/` or the generator, re-run `python docs/make_readme.py` and commit the regenerated README.
+
 ## Project website
 `docs/` is served by GitHub Pages (Settings → Pages → branch `main`, folder `/docs`). `docs/index.html` renders every number from the JSON embedded in it (`docs/site_data.json` is the same data). After rebuilding the report, copy it to `docs/report/harvi_results_report.pdf`, where the site's report button links.

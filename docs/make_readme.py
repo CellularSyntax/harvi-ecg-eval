@@ -47,7 +47,8 @@ L += ['<p align="center">', '  <img src="docs/assets/harvi_ecg_logo.png" alt="HA
       '  <a href="https://doi.org/10.5281/zenodo.23367346"><img src="https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.23367346-1682D4" alt="Zenodo DOI"></a>',
       '  <a href="https://huggingface.co/maxhaberbusch/HARVI-ECG"><img src="https://img.shields.io/badge/Hugging%20Face-weights%20on%20request-FFD21E?logo=huggingface&logoColor=black" alt="Model weights on Hugging Face (on request)"></a>',
       '  <a href="docs/preregistration.md"><img src="https://img.shields.io/badge/analysis-pre--specified-546E7A" alt="Pre-specified analysis"></a>',
-      '  <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-8D6E63" alt="MIT licence"></a>', '</p>', '',
+      '  <a href="LICENSE"><img src="https://img.shields.io/badge/code-MIT-8D6E63" alt="MIT licence"></a>',
+      '  <a href="https://github.com/CellularSyntax/harvi-ecg-eval/actions/workflows/consistency.yml"><img src="https://github.com/CellularSyntax/harvi-ecg-eval/actions/workflows/consistency.yml/badge.svg" alt="Consistency checks"></a>', '</p>', '',
       '---', '']
 L += ["## Why", "",
       "Heart failure is often recognised late. NT-proBNP is the guideline blood test for ruling heart failure in or out, and echocardiography confirms structural disease, but neither is done routinely in people without symptoms. A 12-lead ECG is cheap, quick and recorded millions of times a day. **HARVI-ECG** reads heart-failure information out of that ECG, so the patients who need a blood test or an echo can be identified from a recording that already exists.", "",
