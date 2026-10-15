@@ -5,6 +5,9 @@ type: software
 version: 1.3.0
 date-released: 2026-10-15
 license: MIT
+doi: 10.5281/zenodo.23367346
+repository-code: "https://github.com/CellularSyntax/harvi-ecg-eval"
+url: "https://cellularsyntax.github.io/harvi-ecg-eval/"
 authors:
   - family-names: Haberbusch
     given-names: Max

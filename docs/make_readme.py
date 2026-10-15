@@ -118,7 +118,7 @@ L += ["## Links", "",
       "- Project website: <https://cellularsyntax.github.io/harvi-ecg-eval/>",
       "- Technical report: [report/harvi_results_report.pdf](report/harvi_results_report.pdf)",
       "- Model weights: [Hugging Face, maxhaberbusch/HARVI-ECG](https://huggingface.co/maxhaberbusch/HARVI-ECG), available upon reasonable request (access is reviewed and approved manually)",
-      "- Archived release (report, results, code): Zenodo, DOI [10.5281/zenodo.23367346](https://doi.org/10.5281/zenodo.23367346) (resolves once the record is published)",
+      "- Archived release (report, results, code): Zenodo, DOI [10.5281/zenodo.23367346](https://doi.org/10.5281/zenodo.23367346)",
       "- Pre-specifications: [HARVI](docs/preregistration.md) · [EchoNext](docs/echonext_preregistration.md)", ""]
 L += ["## Citation and licence", "",
       "See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).", ""]
