@@ -144,7 +144,7 @@ HARVI-ECG turns a standard 10-second 12-lead ECG into heart-failure readouts. It
 \vspace{{2pt}}
 \begin{{figure}}[h]\centering\includegraphics[width=\linewidth]{{harvi_visual_abstract.png}}
 \caption*{{\small\textbf{{Overview.}} A 10-second 12-lead ECG is encoded by a self-supervised ECG foundation model; HARVI-ECG reads out NT-proBNP-based heart-failure risk and echo-defined structural heart disease.}}\end{{figure}}
-\renewcommand{{\thefootnote}}{{}}\footnotetext{{Technical report v1.2, October 2026. Code: \url{{https://github.com/CellularSyntax/harvi-ecg-eval}}. Archive: \href{{https://doi.org/10.5281/zenodo.23367346}}{{doi:10.5281/zenodo.23367346}}.}}\renewcommand{{\thefootnote}}{{\arabic{{footnote}}}}
+\renewcommand{{\thefootnote}}{{}}\footnotetext{{Technical report v1.2, October 2026. Code: \url{{https://github.com/CellularSyntax/harvi-ecg-eval}}. Archive: \href{{https://doi.org/10.5281/zenodo.23367346}}{{doi:10.5281/zenodo.23367346}}. Model weights (on request): \url{{https://huggingface.co/maxhaberbusch/HARVI-ECG}}.}}\renewcommand{{\thefootnote}}{{\arabic{{footnote}}}}
 
 \section{{Model}}\label{{sec:model}}
 \begin{{figure}}[t]\centering\includegraphics[width=\linewidth]{{harvi_fig1_overview.png}}
@@ -224,7 +224,7 @@ HARVI-ECG is on par with published ECG-to-NT-proBNP models (Figure~\ref{{fig:ben
 \end{{enumerate}}
 
 \section{{Availability}}\label{{sec:avail}}
-Analysis code, aggregate results and figures are available in the accompanying repository and Zenodo record. Model weights are available upon reasonable request through a gated Hugging Face repository (research use only; not a medical device). MIMIC-IV and HEEDB are credentialed-access datasets and EchoNext is available under its data-use agreement; patient-level data and predictions are not redistributed.
+Analysis code, aggregate results and figures are available in the accompanying repository and Zenodo record. Model weights (encoder, NT-proBNP readout and SHD module) are available upon reasonable request through a gated Hugging Face repository, \url{{https://huggingface.co/maxhaberbusch/HARVI-ECG}}; access requests are reviewed individually, and use is limited to research (not a medical device). MIMIC-IV and HEEDB are credentialed-access datasets and EchoNext is available under its data-use agreement; patient-level data and predictions are not redistributed.
 
 \begin{{thebibliography}}{{9}}\small\setlength{{\itemsep}}{{1pt}}
 \bibitem{{gow2023}} B.~Gow, T.~Pollard, L.~A. Nathanson, et~al. MIMIC-IV-ECG: diagnostic electrocardiogram matched subset (version 1.0). \emph{{PhysioNet}}, 2023. doi:10.13026/4nqg-sb35.
