@@ -680,7 +680,7 @@ function ruleSVG(w){const rows=[{lab:'Measured < 300 pg/mL',m:['Sensitivity',f2(
 
 /* transfer cards */
 const ex=[{t:'HFrEF, ICD-coded',s:'Emory · vs age- and sex-matched controls',r:NR.emory[0],n:`${fi(NR.emory[0].cases)} cases · ${fi(NR.emory[0].controls)} controls`},{t:'HFpEF, ICD-coded',s:'Emory · vs age- and sex-matched controls',r:NR.emory[1],n:`${fi(NR.emory[1].cases)} cases · ${fi(NR.emory[1].controls)} controls`},{t:NR.echonext_zero_shot[0].endpoint,s:'EchoNext · held-out test patients',r:NR.echonext_zero_shot[0],n:'NT-proBNP readout, zero-shot'}];
-$('#xfer').innerHTML=ex.map((e,i)=>`<div class="card cc" style="--i:${i}"><span class="role">zero-shot · AUROC</span><div class="bg">${f3(e.r.auroc)}</div><div class="ci">95 % CI ${ci(e.r)}</div><div class="nm" style="margin-top:12px">${esc(e.t)}</div><div class="pl">${esc(e.s)}</div><div class="bl">${e.n}</div></div>`).join('');
+$('#xfer').innerHTML=ex.map((e,i)=>`<div class="card cc" style="--i:${i}"><span class="role">zero-shot · AUROC</span><div class="bg" style="color:${NUMC[3+i]}">${f3(e.r.auroc)}</div><div class="ci">95 % CI ${ci(e.r)}</div><div class="nm" style="margin-top:12px">${esc(e.t)}</div><div class="pl">${esc(e.s)}</div><div class="bl">${e.n}</div></div>`).join('');
 
 /* paired dots */
 function pairSVG(rows,w,o){const wide=w>=640;const Lm=wide?Math.min(290,w*.36):6,R=wide?140:104,rh=wide?56:78,Tp=26;
