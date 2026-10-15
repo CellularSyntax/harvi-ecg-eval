@@ -326,7 +326,7 @@ details[open]>summary::before{transform:rotate(45deg)}
   <p class="lab">NT-proBNP readout · MIMIC-IV</p>
   <h2>It works</h2>
   <p class="take" id="take-readout"></p>
-  <div class="legend"><span><i class="sw" style="background:#6a00a8"></i>Youden point (cross-fitted)</span><span><i class="sw" style="background:#fff;border:2px solid #6a00a8"></i>default threshold</span><span>Thresholds chosen on data separate from the patients they are reported on.</span></div>
+  <div class="legend"><span><i class="sw" style="background:#1a1430"></i>Youden point (cross-fitted)</span><span><i class="sw" style="background:#fff;border:2px solid #1a1430"></i>default threshold</span><span>Thresholds chosen on data separate from the patients they are reported on.</span></div>
   <div class="rocgrid" id="roc-mimic"></div>
   <div class="dens-wrap">
    <div>
@@ -357,7 +357,7 @@ details[open]>summary::before{transform:rotate(45deg)}
   <h2>It transfers</h2>
   <p class="take" id="take-transfer"></p>
   <div class="xfer" id="xfer"></div>
-  <div class="legend" style="margin-top:48px"><span><i class="sw" style="background:#fff;border:2px solid #6a00a8"></i>transferred 300 pg/mL cut-off</span><span><i class="sw dm" style="background:#fff;border:2px solid #6a00a8"></i>transferred age-adjusted rule-in</span><span><i class="sw" style="background:#6a00a8"></i>Youden (EchoNext validation split)</span></div>
+  <div class="legend" style="margin-top:48px"><span><i class="sw" style="background:#fff;border:2px solid #1a1430"></i>transferred 300 pg/mL cut-off</span><span><i class="sw dm" style="background:#fff;border:2px solid #1a1430"></i>transferred age-adjusted rule-in</span><span><i class="sw" style="background:#1a1430"></i>Youden (EchoNext validation split)</span></div>
   <div class="rocgrid" id="roc-transfer"></div>
   <p class="sentence" id="cut-sentence"></p>
   <p class="fn"><span>† Post hoc endpoint (reduced EF, LVEF ≤ 40 % vs ≥ 50 %).</span><span>Emory phenotypes are ICD-coded; controls are age- and sex-matched.</span></p>
@@ -633,8 +633,8 @@ function rocCard(grid,list,o={}){const r0=list[0];const card=document.createElem
  card.innerHTML=`<h4>${esc(o.title||r0.title)}</h4><div class="meta">${esc(o.meta||r0.cohort)} · n = ${fi(r0.n)} · ${fi(r0.n_pos)} positive</div><div class="chart"></div>${ops.length?`<div class="opline">${opLine(ops)}</div>`:''}`;grid.appendChild(card);chart(card.querySelector('.chart'),w=>rocSVG(list,w,o.title||r0.title))}
 const isReadout=s=>s.series==='HARVI-ECG'||s.series==='HARVI-ECG · NT-proBNP readout (zero-shot)';
 const roR=p=>D.roc.filter(r=>r.panel===p&&isReadout(r));
-['rule_out_lt300','rule_in_age_adjusted','severe_gt3000'].forEach(p=>rocCard($('#roc-mimic'),roR(p).map(s=>({...s,color:C.teal,short:'NT-proBNP readout',ops:opsFor(p,s.series,C.teal).map(o=>({...o,lab:o.p.point==='default'?'default':'Youden'}))}))));
-[['hfref_vs_matched_controls','Emory · HFrEF vs matched controls'],['hfpef_vs_matched_controls','Emory · HFpEF vs matched controls'],['lvef_le40_vs_ge50','EchoNext · reduced EF†']].forEach(([p,ti])=>rocCard($('#roc-transfer'),roR(p).map(s=>({...s,color:C.teal,short:'NT-proBNP readout',ops:opsFor(p,s.series,C.teal,o=>!/recalibrated/.test(o.point)).map(o=>({...o,lab:/300/.test(o.point)?'300 pg/mL':/rule-in/.test(o.point)?'rule-in':'Youden'}))})),{title:ti,meta:p==='lvef_le40_vs_ge50'?'held-out test, zero-shot':'zero-shot'}));
+['rule_out_lt300','rule_in_age_adjusted','severe_gt3000'].forEach((p,pi)=>rocCard($('#roc-mimic'),roR(p).map(s=>({...s,color:NUMC[pi],short:'NT-proBNP readout',ops:opsFor(p,s.series,NUMC[pi]).map(o=>({...o,lab:o.p.point==='default'?'default':'Youden'}))}))));
+[['hfref_vs_matched_controls','Emory · HFrEF vs matched controls'],['hfpef_vs_matched_controls','Emory · HFpEF vs matched controls'],['lvef_le40_vs_ge50','EchoNext · reduced EF†']].forEach(([p,ti],pi)=>rocCard($('#roc-transfer'),roR(p).map(s=>({...s,color:NUMC[3+pi],short:'NT-proBNP readout',ops:opsFor(p,s.series,NUMC[3+pi],o=>!/recalibrated/.test(o.point)).map(o=>({...o,lab:/300/.test(o.point)?'300 pg/mL':/rule-in/.test(o.point)?'rule-in':'Youden'}))})),{title:ti,meta:p==='lvef_le40_vs_ge50'?'held-out test, zero-shot':'zero-shot'}));
 const mo=NR.mimic[0];$('#take-readout').textContent=`AUROC ${f3(mo.auroc)} for rule-out in ${fi(mo.ecgs)} MIMIC-IV ECGs.`;
 const em=NR.emory[0];$('#take-transfer').textContent=`${f3(em.auroc)} for HFrEF at Emory, without retraining.`;
 {const tr=op('hfref_vs_matched_controls','transferred age-adjusted rule-in'),rc=op('hfref_vs_matched_controls','site-recalibrated Youden (cross-fitted)'),t3=op('hfref_vs_matched_controls','transferred cut-off 300 pg/mL');
