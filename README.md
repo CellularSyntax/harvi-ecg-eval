@@ -90,7 +90,7 @@ A frozen-encoder logistic-regression probe (regularisation chosen on EchoNext's 
 
 <p align="center"><img src="docs/assets/harvi_benchmark.png" alt="HARVI-ECG against published ECG-to-NT-proBNP models"></p>
 
-Values for published models as reported in the cited studies; they were evaluated on different cohorts.
+Published values as reported: [Liu et al., *Diagnostics* 2023](https://doi.org/10.3390/diagnostics13172723), NT-proBNP ≥ 500 pg/mL at their external community hospital (AUC 0.880); [Lopez Alcaraz & Strodthoff, *Sci Rep* 2025](https://doi.org/10.1038/s41598-025-26715-5), NT-proBNP ≥ 353 pg/mL on a MIMIC-IV test fold from the ECG with demographics, biometrics and vital signs (0.903). Thresholds, cohorts and inputs differ between studies, so this is not a head-to-head comparison.
 
 ## Study design
 
@@ -136,4 +136,4 @@ No patient-level data, predictions or model weights are distributed. **MIMIC-IV 
 
 ## Citation and licence
 
-See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0.
+See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](https://huggingface.co/maxhaberbusch/HARVI-ECG/blob/main/LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).

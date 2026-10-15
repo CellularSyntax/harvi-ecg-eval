@@ -9269,15 +9269,15 @@
  ],
  "benchmark": [
   {
-   "label": "Liu et al., Diagnostics 2023 (external)",
-   "value": 0.85,
-   "display": "≥0.85",
+   "label": "Liu et al., Diagnostics 2023 · NT-proBNP ≥ 500 pg/mL, external hospital",
+   "value": 0.88,
+   "display": "0.880",
    "ours": false
   },
   {
-   "label": "Lopez Alcaraz & Strodthoff, Sci Rep 2025",
-   "value": 0.9,
-   "display": ">0.90",
+   "label": "Lopez Alcaraz & Strodthoff, Sci Rep 2025 · NT-proBNP ≥ 353 pg/mL, MIMIC-IV, ECG + vitals",
+   "value": 0.903,
+   "display": "0.903",
    "ours": false
   },
   {
@@ -9293,7 +9293,7 @@
    "ours": true
   }
  ],
- "benchmark_note": "Published values as reported by the cited studies, on different cohorts; axis starts at 0.6.",
+ "benchmark_note": "Published values as reported: Liu et al., Diagnostics 2023 (external community hospital, 2,076 patients; 0.879 at ≥ 1,000 pg/mL) and Lopez Alcaraz & Strodthoff, Sci Rep 2025 (MIMIC-IV test fold; ECG with demographics, biometrics and vital signs; 95 % CI 0.883–0.923). Thresholds, cohorts and inputs differ between studies, so this is not a head-to-head comparison.",
  "architecture": [
   {
    "step": "12-lead ECG",

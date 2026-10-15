@@ -90,7 +90,7 @@ L += ["", f"A frozen-encoder logistic-regression probe (regularisation chosen on
       "† Post hoc endpoint; LVEF ≤ 45 % is the pre-specified alternative.", ""]
 L += ["## Comparison with published models", "",
       '<p align="center"><img src="docs/assets/harvi_benchmark.png" alt="HARVI-ECG against published ECG-to-NT-proBNP models"></p>', "",
-      "Values for published models as reported in the cited studies; they were evaluated on different cohorts.", ""]
+      "Published values as reported: [Liu et al., *Diagnostics* 2023](https://doi.org/10.3390/diagnostics13172723), NT-proBNP ≥ 500 pg/mL at their external community hospital (AUC 0.880); [Lopez Alcaraz & Strodthoff, *Sci Rep* 2025](https://doi.org/10.1038/s41598-025-26715-5), NT-proBNP ≥ 353 pg/mL on a MIMIC-IV test fold from the ECG with demographics, biometrics and vital signs (0.903). Thresholds, cohorts and inputs differ between studies, so this is not a head-to-head comparison.", ""]
 L += ["## Study design", "",
       "- **Pre-specified.** The decision metric, statistics and external endpoints were fixed before any scoring ([HARVI pre-specification](docs/preregistration.md), [EchoNext pre-specification](docs/echonext_preregistration.md)). 95 % CIs from a 2,000-draw patient bootstrap; paired differences on identical rows.",
       "- **Patient-level separation.** MIMIC-IV folds are grouped by patient. Emory and EchoNext were used neither in pretraining nor in developing the NT-proBNP readout. EchoNext training and validation patients were used to adapt the SHD module and to choose its operating thresholds; all EchoNext results are on the patient-disjoint held-out test split.",
@@ -120,6 +120,6 @@ L += ["## Links", "",
       "- Archived release (report, results, code): Zenodo, DOI [10.5281/zenodo.23367346](https://doi.org/10.5281/zenodo.23367346) (resolves once the record is published)",
       "- Pre-specifications: [HARVI](docs/preregistration.md) · [EchoNext](docs/echonext_preregistration.md)", ""]
 L += ["## Citation and licence", "",
-      "See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0.", ""]
+      "See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](https://huggingface.co/maxhaberbusch/HARVI-ECG/blob/main/LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).", ""]
 open(f"{ROOT}/README.md", "w").write("\n".join(L))
 print("README.md written")
