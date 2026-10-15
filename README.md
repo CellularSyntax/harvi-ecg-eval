@@ -63,7 +63,7 @@ Heart failure is often recognised late. NT-proBNP is the guideline blood test fo
 
 MIMIC-IV: 18,036 ECGs from 11,929 patients. Patients whose ECG waveforms never entered pretraining (2,423) score similarly: mean rule-out + rule-in **0.897** <sub>(0.887–0.907)</sub>. Emory labels are ICD-10 coded; controls are matched 4:1 on age and sex.
 
-## Foundation pretraining beats a task-specific model
+## HARVI-ECG outperforms a task-specific baseline in this evaluation
 
 <p align="center"><img src="docs/assets/harvi_fig3_foundation.png" alt="HARVI-ECG vs task-specific baseline"></p>
 
@@ -82,7 +82,7 @@ EchoNext held-out test patients (n = 5,442, one ECG each). The SHD module is ada
 | Reduced EF (LVEF ≤ 40 % vs ≥ 50 %) † | 761 | **0.834** <sub>(0.819–0.849)</sub> | **0.929** <sub>(0.917–0.940)</sub> | +0.095 |
 | LV wall thickness ≥ 13 mm | 1,061 | **0.685** <sub>(0.667–0.702)</sub> | **0.785** <sub>(0.771–0.799)</sub> | +0.100 |
 
-With a lightweight adaptation of the encoder, **250 echo-labelled patients** match the zero-label NT-proBNP readout for LVEF ≤ 45 % (1,000 for structural heart disease), and accuracy keeps rising with more labels (0.911 with all 26,218 training patients).
+A frozen-encoder logistic-regression probe (regularisation chosen on EchoNext's separate validation split) on **250 echo-labelled training patients** matches the zero-label NT-proBNP readout for LVEF ≤ 45 % (1,000 for structural heart disease), and accuracy keeps rising with more labels (0.911 with all 26,218 training patients).
 
 † Post hoc endpoint; LVEF ≤ 45 % is the pre-specified alternative.
 
@@ -95,14 +95,16 @@ Values for published models as reported in the cited studies; they were evaluate
 ## Study design
 
 - **Pre-specified.** The decision metric, statistics and external endpoints were fixed before any scoring ([HARVI pre-specification](docs/preregistration.md), [EchoNext pre-specification](docs/echonext_preregistration.md)). 95 % CIs from a 2,000-draw patient bootstrap; paired differences on identical rows.
-- **Patient-level separation.** MIMIC-IV folds are grouped by patient; Emory and EchoNext were used neither for development nor for pretraining; EchoNext training, validation and test splits are patient-disjoint.
-- **Zero-shot means zero-shot.** At Emory and EchoNext the NT-proBNP readout is applied exactly as trained on MIMIC-IV (mean of the five fold models), with no recalibration.
+- **Patient-level separation.** MIMIC-IV folds are grouped by patient. Emory and EchoNext were used neither in pretraining nor in developing the NT-proBNP readout. EchoNext training and validation patients were used to adapt the SHD module and to choose its operating thresholds; all EchoNext results are on the patient-disjoint held-out test split.
+- **Zero-shot means zero-shot.** At Emory and EchoNext the NT-proBNP readout score is applied exactly as trained on MIMIC-IV (mean of the five fold models), with no recalibration. Locally selected operating thresholds (the recalibrated Youden point at Emory; Youden points chosen on the EchoNext validation split) use local labels and are reported separately from the unchanged score. The SHD module is adapted on EchoNext and is not zero-shot.
+- **Baseline comparison.** The task-specific baseline (ConvNeXt-1D + xLSTM, trained from scratch on the same folds) also differs in architecture, training recipe and checkpoint selection, so the comparison does not isolate pretraining alone.
 
 ## Limitations
 
 - Retrospective data; prospective validation of the screening pathway is the next step.
 - Emory phenotypes are ICD-10 based. EchoNext records echo findings but not symptoms, so its positives include symptomatic heart failure as well as asymptomatic structural disease.
-- AUROC transfers between hospitals; absolute pg/mL cut-offs need recalibration at a new site.
+- The fixed 300 pg/mL rule-out cut-off needs recalibration at a new site; in this evaluation, the age-adjusted rule-in cut-offs transferred to Emory without it.
+- See the [technical report](report/harvi_results_report.pdf) for further limitations: pretraining exposure of MIMIC-IV patients, the raw-scale regression head and one training seed per NT-proBNP fold.
 
 ## Repository layout
 
@@ -118,7 +120,7 @@ docs/       pre-specifications, README generator, assets
 
 ## Reproducing
 
-See [REPRODUCE.md](REPRODUCE.md). Scoring is deterministic (seed 0): re-running it on the exported predictions reproduces `results/*.csv` byte-for-byte. This README is generated from those tables by `docs/make_readme.py`.
+See [REPRODUCE.md](REPRODUCE.md). Scoring is deterministic (seed 0): re-running the scoring scripts on the exported predictions reproduces `results/*.csv`. This README is generated from those tables by `docs/make_readme.py`.
 
 ## Data access
 

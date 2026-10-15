@@ -54,3 +54,10 @@ Added at the investigators' request; the surrogate scores existed at this point,
 2. *Site-recalibrated thresholds:* on the EchoNext val split, choose the predicted-NT-proBNP threshold that reaches sensitivity ≥ 0.90 (rule-out style) and the one reaching specificity ≥ 0.90 (rule-in style), separately per endpoint, then apply unchanged to test.
 
 **Metrics:** sensitivity, specificity, PPV, NPV, and the fraction flagged positive, with 95 % patient-bootstrap CIs (2,000 draws, seed 0) on test. These are descriptive; no decision rule is attached. Fixed-threshold results are reported as a test of transfer across sites, not as validated cut-offs.
+
+## Note on reporting (added 15 October 2026, after scoring; no analysis changed)
+This note records where the reported results go beyond the wording above. It does not alter any analysis.
+1. **Reduced EF for the SHD module.** §2 lists the post hoc reduced-EF contrast (LVEF ≤ 40 % vs ≥ 50 %) as surrogate only. The final report and website also show the SHD module on this contrast. That result uses the LVEF ≤ 45 % classifier scored on the reduced-EF patients; no separate model was trained. Like the contrast itself, it is post hoc.
+2. **Youden operating points.** Amendment 1 specifies threshold-based detection. The report additionally gives Youden operating points for both readouts. Each threshold is chosen on the validation split and applied unchanged to the test split, with bootstrap CIs that hold the threshold fixed (`scoring/operating_points.py`).
+3. **Label-efficiency draws.** Five draws per training-set size, as specified, except the full training set (26,218 patients), which is a single fit. Ranges across draws are not confidence intervals.
+

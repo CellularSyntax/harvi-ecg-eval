@@ -76,7 +76,7 @@ L += ["## The NT-proBNP readout works and transfers", "",
       f"| EchoNext, zero-shot | Reduced EF † | {n(x40.n)} | {ci(xs('all test', EP[2][0]).auroc, xs('all test', EP[2][0]).lo, xs('all test', EP[2][0]).hi)} |",
       f"| | LVEF ≤ 45 % | {n(x45.n)} | {ci(xs('all test', EP[1][0]).auroc, xs('all test', EP[1][0]).lo, xs('all test', EP[1][0]).hi)} |", "",
       f"MIMIC-IV: {n(ro.n)} ECGs from {n(ro.n_pat)} patients. Patients whose ECG waveforms never entered pretraining ({n(umo.n_pat)}) score similarly: mean rule-out + rule-in {cr(umo)}. Emory labels are ICD-10 coded; controls are matched 4:1 on age and sex.", ""]
-L += ["## Foundation pretraining beats a task-specific model", "",
+L += ["## HARVI-ECG outperforms a task-specific baseline in this evaluation", "",
       '<p align="center"><img src="docs/assets/harvi_fig3_foundation.png" alt="HARVI-ECG vs task-specific baseline"></p>', "",
       f"On identical patients and folds, HARVI-ECG improves on a CNN-xLSTM trained from scratch for the task: {mo.auroc:.3f} vs {hmo.auroc:.3f} on the pre-specified MIMIC-IV metric (Δ {d(mo)}), and most at an unseen hospital: Emory HFrEF {efr.auroc:.3f} vs {befr.auroc:.3f} (Δ {d(efr)}), HFpEF {efp.auroc:.3f} vs {befp.auroc:.3f} (Δ {d(efp)}).", ""]
 L += ["## The SHD module detects structural heart disease with few local labels", "",
@@ -86,19 +86,21 @@ L += ["## The SHD module detects structural heart disease with few local labels"
 for ep, nm in EP:
     r = xd("all test", ep); s = xs("all test", ep)
     L.append(f"| {nm} | {n(r.n_pos)} | {ci(s.auroc, s.lo, s.hi)} | {ci(r.direct_auroc, r.direct_lo, r.direct_hi)} | {r.d_direct_minus_surrogate:+.3f} |")
-L += ["", f"With a lightweight adaptation of the encoder, **{cross['lvef_le45']} echo-labelled patients** match the zero-label NT-proBNP readout for LVEF ≤ 45 % ({n(cross['shd'])} for structural heart disease), and accuracy keeps rising with more labels ({le('lvef_le45', 26218)['mean']:.3f} with all {n(26218)} training patients).", "",
+L += ["", f"A frozen-encoder logistic-regression probe (regularisation chosen on EchoNext's separate validation split) on **{cross['lvef_le45']} echo-labelled training patients** matches the zero-label NT-proBNP readout for LVEF ≤ 45 % ({n(cross['shd'])} for structural heart disease), and accuracy keeps rising with more labels ({le('lvef_le45', 26218)['mean']:.3f} with all {n(26218)} training patients).", "",
       "† Post hoc endpoint; LVEF ≤ 45 % is the pre-specified alternative.", ""]
 L += ["## Comparison with published models", "",
       '<p align="center"><img src="docs/assets/harvi_benchmark.png" alt="HARVI-ECG against published ECG-to-NT-proBNP models"></p>', "",
       "Values for published models as reported in the cited studies; they were evaluated on different cohorts.", ""]
 L += ["## Study design", "",
       "- **Pre-specified.** The decision metric, statistics and external endpoints were fixed before any scoring ([HARVI pre-specification](docs/preregistration.md), [EchoNext pre-specification](docs/echonext_preregistration.md)). 95 % CIs from a 2,000-draw patient bootstrap; paired differences on identical rows.",
-      "- **Patient-level separation.** MIMIC-IV folds are grouped by patient; Emory and EchoNext were used neither for development nor for pretraining; EchoNext training, validation and test splits are patient-disjoint.",
-      "- **Zero-shot means zero-shot.** At Emory and EchoNext the NT-proBNP readout is applied exactly as trained on MIMIC-IV (mean of the five fold models), with no recalibration.", ""]
+      "- **Patient-level separation.** MIMIC-IV folds are grouped by patient. Emory and EchoNext were used neither in pretraining nor in developing the NT-proBNP readout. EchoNext training and validation patients were used to adapt the SHD module and to choose its operating thresholds; all EchoNext results are on the patient-disjoint held-out test split.",
+      "- **Zero-shot means zero-shot.** At Emory and EchoNext the NT-proBNP readout score is applied exactly as trained on MIMIC-IV (mean of the five fold models), with no recalibration. Locally selected operating thresholds (the recalibrated Youden point at Emory; Youden points chosen on the EchoNext validation split) use local labels and are reported separately from the unchanged score. The SHD module is adapted on EchoNext and is not zero-shot.",
+      "- **Baseline comparison.** The task-specific baseline (ConvNeXt-1D + xLSTM, trained from scratch on the same folds) also differs in architecture, training recipe and checkpoint selection, so the comparison does not isolate pretraining alone.", ""]
 L += ["## Limitations", "",
       "- Retrospective data; prospective validation of the screening pathway is the next step.",
       "- Emory phenotypes are ICD-10 based. EchoNext records echo findings but not symptoms, so its positives include symptomatic heart failure as well as asymptomatic structural disease.",
-      "- AUROC transfers between hospitals; absolute pg/mL cut-offs need recalibration at a new site.", ""]
+      "- The fixed 300 pg/mL rule-out cut-off needs recalibration at a new site; in this evaluation, the age-adjusted rule-in cut-offs transferred to Emory without it.",
+      "- See the [technical report](report/harvi_results_report.pdf) for further limitations: pretraining exposure of MIMIC-IV patients, the raw-scale regression head and one training seed per NT-proBNP fold.", ""]
 L += ["## Repository layout", "", "```",
       "src/        data inventory, external cohorts, model training and inference (numbered in run order)",
       "src/checks/ lead-order / lead-integrity checks and evaluation diagnostics",
@@ -108,7 +110,7 @@ L += ["## Repository layout", "", "```",
       "report/     LaTeX technical report: generator, source, figures, PDF",
       "docs/       pre-specifications, README generator, assets", "```", ""]
 L += ["## Reproducing", "",
-      "See [REPRODUCE.md](REPRODUCE.md). Scoring is deterministic (seed 0): re-running it on the exported predictions reproduces `results/*.csv` byte-for-byte. This README is generated from those tables by `docs/make_readme.py`.", ""]
+      "See [REPRODUCE.md](REPRODUCE.md). Scoring is deterministic (seed 0): re-running the scoring scripts on the exported predictions reproduces `results/*.csv`. This README is generated from those tables by `docs/make_readme.py`.", ""]
 L += ["## Data access", "",
       "No patient-level data, predictions or model weights are distributed. **MIMIC-IV / MIMIC-IV-ECG** and the **Harvard-Emory ECG Database** are credentialed-access datasets on PhysioNet. **EchoNext** is available under its own data-use agreement.", ""]
 L += ["## Links", "",

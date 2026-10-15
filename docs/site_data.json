@@ -7087,13 +7087,13 @@
    {
     "endpoint": "Reduced EF (LVEF ≤ 40 % vs ≥ 50 %)†",
     "auroc": 0.834,
-    "lo": 0.817,
-    "hi": 0.85
+    "lo": 0.819,
+    "hi": 0.849
    },
    {
     "endpoint": "LVEF ≤ 45 %",
     "auroc": 0.83,
-    "lo": 0.815,
+    "lo": 0.816,
     "hi": 0.844
    }
   ]
@@ -8925,7 +8925,7 @@
     "cases": 2318,
     "ntprobnp_readout": {
      "auroc": 0.808,
-     "lo": 0.797,
+     "lo": 0.796,
      "hi": 0.82
     },
     "shd_module": {
@@ -8944,7 +8944,7 @@
     "cases": 962,
     "ntprobnp_readout": {
      "auroc": 0.83,
-     "lo": 0.815,
+     "lo": 0.816,
      "hi": 0.844
     },
     "shd_module": {
@@ -8963,8 +8963,8 @@
     "cases": 761,
     "ntprobnp_readout": {
      "auroc": 0.834,
-     "lo": 0.817,
-     "hi": 0.85
+     "lo": 0.819,
+     "hi": 0.849
     },
     "shd_module": {
      "auroc": 0.929,
@@ -8982,8 +8982,8 @@
     "cases": 1061,
     "ntprobnp_readout": {
      "auroc": 0.685,
-     "lo": 0.669,
-     "hi": 0.703
+     "lo": 0.667,
+     "hi": 0.702
     },
     "shd_module": {
      "auroc": 0.785,
@@ -9001,8 +9001,8 @@
     "cases": 271,
     "ntprobnp_readout": {
      "auroc": 0.781,
-     "lo": 0.748,
-     "hi": 0.813
+     "lo": 0.746,
+     "hi": 0.814
     },
     "shd_module": {
      "auroc": 0.829,
@@ -9020,8 +9020,8 @@
     "cases": 70,
     "ntprobnp_readout": {
      "auroc": 0.859,
-     "lo": 0.8,
-     "hi": 0.908
+     "lo": 0.804,
+     "hi": 0.91
     },
     "shd_module": {
      "auroc": 0.943,
@@ -9039,8 +9039,8 @@
     "cases": 57,
     "ntprobnp_readout": {
      "auroc": 0.837,
-     "lo": 0.766,
-     "hi": 0.897
+     "lo": 0.767,
+     "hi": 0.899
     },
     "shd_module": {
      "auroc": 0.944,
@@ -9058,8 +9058,8 @@
     "cases": 146,
     "ntprobnp_readout": {
      "auroc": 0.701,
-     "lo": 0.653,
-     "hi": 0.75
+     "lo": 0.654,
+     "hi": 0.747
     },
     "shd_module": {
      "auroc": 0.801,
@@ -9223,7 +9223,7 @@
     "crossover_patients": 250
    }
   ],
-  "note": "Lightweight adaptation of the encoder (linear probe) on random subsets of EchoNext training patients, 5 draws per size; dashed reference = NT-proBNP readout with zero local labels."
+  "note": "Frozen-encoder logistic-regression probe on random subsets of EchoNext training patients; regularisation chosen on the separate validation split (4,626 patients); scored on the held-out test patients. 5 draws per size, except the full training set (26,218 patients, a single fit); ranges are across draws, not confidence intervals. Dashed reference = NT-proBNP readout with zero local labels."
  },
  "echonext_thresholds": [
   {
@@ -9319,7 +9319,7 @@
  "limitations": [
   "Retrospective evaluation; prospective validation of the screening pathway is planned.",
   "Emory phenotypes are ICD-10 coded. EchoNext records echo findings but not symptoms, so its positives include symptomatic heart failure and asymptomatic structural disease (Stage B).",
-  "The fixed 300 pg/mL rule-out cut-off needs recalibration at a new site; the age-adjusted rule-in cut-offs transferred to Emory without it."
+  "The fixed 300 pg/mL rule-out cut-off needs recalibration at a new site; in this evaluation, the age-adjusted rule-in cut-offs transferred to Emory without it."
  ],
  "citation_bibtex": "@techreport{harvi_ecg_2026,\n  title  = {HARVI-ECG: heart-failure readouts from a 10-second 12-lead ECG},\n  author = {Haberbusch, Max and others},\n  institution = {Medical University of Vienna},\n  year = {2026},\n  doi = {10.5281/zenodo.23367346}\n}",
  "operating_points": [
