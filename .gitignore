@@ -1,0 +1,11 @@
+data/
+*.npz
+*.npy
+*.parquet
+harvi_oof_merged.csv
+score_emory_meta.csv
+__pycache__/
+*.aux
+*.log
+*.out
+*.toc

@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite them as below."
+title: "HARVI-ECG: heart-failure readouts from the 12-lead ECG (MIMIC-IV development, zero-shot Emory and EchoNext validation)"
+type: software
+version: 1.2.0
+date-released: 2026-10-14
+license: MIT
+authors:
+  - family-names: Haberbusch
+    given-names: Max
+    affiliation: "Medical University of Vienna, Center for Medical Physics and Biomedical Engineering"
+keywords: [ECG, NT-proBNP, heart failure, HFpEF, foundation model, LoRA, external validation]

@@ -1,0 +1,49 @@
+# Reproducing the HARVI-ECG evaluation
+
+Set the roots once; all scripts read them from the environment:
+
+```bash
+export PROJECT_ROOT=/path/to/project     # contains data/, manifests/, results/, and the ecg_audit package
+export FAIRECG_ROOT=/path/to/fairecg     # FairECG checkpoints and harness (fair_lora)
+export HARVI_V2_ROOT=/path/to/harvi_v2   # original HARVI-ECG code, cache/ntprobnp, fold checkpoints
+```
+
+Containers: `nvcr.io#nvidia/pytorch:25.08-py3` plus `harvi_v2/requirements.txt` for HARVI-ECG inference, and the FairECG harness container for steps 4–6.
+
+| step | script | what it does | output |
+|---|---|---|---|
+| 0 | `src/00_inventory_folds.py` | reproduces the harvi_v2 `GroupKFold(5)` patient folds and flags FairECG pretraining exposure | `harvi_pairs_folds.npz`, `harvi_pair_in_pretraining.npy` |
+| 1 | `src/01_inventory_overlap_emory.py` | Emory ICD-10 phenotypes, case-ECG selection, control pool | `emory_cases_draft.parquet`, `emory_controls_draft.parquet` |
+| c | `src/checks/lead_order_harvi_cache.py`, `src/checks/lead_integrity_emory.py` | confirms canonical lead order; detects Emory aVL/aVF = ∓III/2 | logs |
+| 2 | `slurm/02_harvi_oof.sbatch` | out-of-fold inference with the original HARVI-ECG checkpoints | `oof_harvi/oof_predictions.csv` |
+| c | `src/checks/oof_discrepancy_diag.py` (`slurm/checks_oof_discrepancy_diag.sbatch`, `slurm/02b_harvi_oof_xlstm205.sbatch`) | weight-load report, held-out vs in-sample AUROC, xLSTM version pin | `diag.json` |
+| 3 | `src/03_merge_harvi_oof.py` | merges OOF predictions with folds, patient IDs and exposure | `harvi_oof_merged.csv` |
+| 4 | `src/04_build_external_emory.py` | 4:1 age/sex-matched Emory sets; rebuilds aVL/aVF from I and II | `external/ext_ecg.npy`, `ext_meta.parquet` |
+| 5 | `slurm/05_harvi_external.sbatch` → `src/05_harvi_external_zeroshot.py` | zero-shot HARVI-ECG on Emory (5-fold mean) | `pred_harvi_ext.npz` |
+| 6 | `slurm/06_fairecg_lora_fold.sbatch`, `slurm/06b_fairecg_frozen.sbatch` → `src/06_fairecg_harvi_heads.py` | FairECG + HARVI heads per fold (LoRA; frozen ablation); epoch selected on inner 10 % of training patients | `fairecg/pred_*.npz` |
+| 7 | `src/07_export_for_scoring.py` | compact export for scoring | `score_export.npz`, `score_emory_meta.csv` |
+| 8 | `scoring/harvi_score.py` | pre-specified scoring, 2,000 patient-bootstrap draws, seed 0 | `results/*.csv` |
+| 9 | `report/build_report.py` | LaTeX report (text and tables generated from `results/`; final figures in `report/`, drawn from the plotted data exported by the scoring step) | `report/` |
+
+Steps 8–9 need only the three export files from step 7. Put them in a folder and run:
+
+```bash
+HARVI_DATA=/path/to/exports python scoring/harvi_score.py
+python report/build_report.py && (cd report && pdflatex harvi_results_report.tex && pdflatex harvi_results_report.tex)
+HARVI_DATA=/path/to/exports python report/build_report.py
+cd report && pdflatex harvi_results_report.tex && pdflatex harvi_results_report.tex
+```
+
+The scoring is deterministic (seed 0); re-running step 8 reproduces `results/*.csv` exactly.
+Python packages for steps 8–9: numpy, pandas, scipy, scikit-learn, matplotlib.
+
+### EchoNext and README
+
+```bash
+ECHONEXT_DATA=/path/to/exports python scoring/echonext_score_surrogate.py      # -> results/echonext/echonext_surrogate_*.csv
+ECHONEXT_DATA=/path/to/exports python scoring/echonext_score_direct.py         # -> results/echonext/echonext_direct_vs_surrogate.csv, *_label_efficiency_summary.csv
+python docs/make_readme.py                                                     # -> README.md (numbers read from results/)
+```
+
+## Project website
+`docs/` is served by GitHub Pages (Settings → Pages → branch `main`, folder `/docs`). `docs/index.html` renders every number from the JSON embedded in it (`docs/site_data.json` is the same data). After rebuilding the report, copy it to `docs/report/harvi_results_report.pdf`, where the site's report button links.
