@@ -136,4 +136,4 @@ No patient-level data, predictions or model weights are distributed. **MIMIC-IV 
 
 ## Citation and licence
 
-See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](https://huggingface.co/maxhaberbusch/HARVI-ECG/blob/main/LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).
+See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).

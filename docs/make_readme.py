@@ -120,6 +120,6 @@ L += ["## Links", "",
       "- Archived release (report, results, code): Zenodo, DOI [10.5281/zenodo.23367346](https://doi.org/10.5281/zenodo.23367346) (resolves once the record is published)",
       "- Pre-specifications: [HARVI](docs/preregistration.md) · [EchoNext](docs/echonext_preregistration.md)", ""]
 L += ["## Citation and licence", "",
-      "See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](https://huggingface.co/maxhaberbusch/HARVI-ECG/blob/main/LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).", ""]
+      "See [CITATION.cff](CITATION.cff). Code: MIT ([LICENSE](LICENSE)). Report, figures and aggregate results: CC BY 4.0. Model weights: [HARVI-ECG Model Weights Research Licence](LICENSE_WEIGHTS.md) (non-commercial research only, no clinical use, no redistribution).", ""]
 open(f"{ROOT}/README.md", "w").write("\n".join(L))
 print("README.md written")
