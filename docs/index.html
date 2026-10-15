@@ -649,22 +649,22 @@ const RAMP=[[0,[253,231,160]],[.3,[252,166,54]],[.55,[225,100,98]],[.8,[177,42,1
 const ramp=v=>{for(let i=1;i<RAMP.length;i++)if(v<=RAMP[i][0]){const[a,ca]=RAMP[i-1],[b,cb]=RAMP[i],k=(v-a)/(b-a);return`rgb(${ca.map((c,j)=>Math.round(c+(cb[j]-c)*k))})`}return'rgb(106,0,168)'};
 let DENS=null;
 function densAt(r,cx,cy){const sv=r.ownerSVGElement,b=sv.getBoundingClientRect(),vb=sv.viewBox.baseVal;const lx=(cx-b.left)*vb.width/b.width,ly=(cy-b.top)*vb.height/b.height;
- const xi=Math.floor((lx-DENS.x0)/DENS.S*DENS.n),yi=DENS.n-1-Math.floor((ly-DENS.y0)/DENS.S*DENS.n);const row=D.density.counts[yi];const v=row?row[xi]:0;
- showTip(v?`${fi(v)} ECGs in this cell${yi===0?' (estimate at the 10 pg/mL floor)':''}`:'fewer than '+D.density.min_cell+' ECGs (suppressed) or none',cx,cy)}
+ const xi=Math.floor((lx-DENS.x0)/DENS.S*DENS.n),yi=DENS.n-1-Math.floor((ly-DENS.y0)/DENS.S*DENS.n);if(yi===0){hideTip();return}const row=D.density.counts[yi];const v=row?row[xi]:0;
+ showTip(v?`${fi(v)} ECGs in this cell`:'fewer than '+D.density.min_cell+' ECGs (suppressed) or none',cx,cy)}
 function densSVG(w){const d=D.density,e=d.edges_log10,n=e.length-1;const size=Math.min(w,500),Lm=58,R=10,Tp=8,S=size-Lm-R;const x=lin(e[0],e[n],Lm,Lm+S),y=lin(e[0],e[n],Tp+S,Tp);
  let mx=1;d.counts.forEach(r=>r.forEach(v=>{if(v>mx)mx=v}));
  let s=`<rect x="${Lm}" y="${Tp}" width="${S}" height="${S}" fill="${C.tint}"/>`;
- const cw=x(e[1])-x(e[0]),sm=Math.sqrt(mx);s+='<g class="pop">';d.counts.forEach((row,yi)=>row.forEach((v,xi)=>{if(!v)return;const t=Math.log(v)/Math.log(mx);s+=`<circle cx="${((x(e[xi])+x(e[xi+1]))/2).toFixed(1)}" cy="${((y(e[yi])+y(e[yi+1]))/2).toFixed(1)}" r="${(cw*(.18+.42*Math.sqrt(v)/sm)).toFixed(2)}" fill="${ramp(t)}"/>`}));s+='</g>';
+ const cw=x(e[1])-x(e[0]),sm=Math.sqrt(mx);s+='<g class="pop">';d.counts.forEach((row,yi)=>row.forEach((v,xi)=>{if(!v||yi===0)return;const t=Math.log(v)/Math.log(mx);s+=`<circle cx="${((x(e[xi])+x(e[xi+1]))/2).toFixed(1)}" cy="${((y(e[yi])+y(e[yi+1]))/2).toFixed(1)}" r="${(cw*(.18+.42*Math.sqrt(v)/sm)).toFixed(2)}" fill="${ramp(t)}"/>`}));s+='</g>';
  s+=`<rect data-dens="1" x="${Lm}" y="${Tp}" width="${S}" height="${S}" fill="transparent"/>`;DENS={x0:Lm,y0:Tp,S,n};
  s+=`<line class="fade" x1="${x(e[0])}" y1="${y(e[0])}" x2="${x(e[n])}" y2="${y(e[n])}" stroke="${C.ink}" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="5 4" pointer-events="none"/>`;
  s+=T(x(e[n])-30,y(e[n])+18,'line of identity',{a:'end',c:'lbs',halo:1});
  const lab={1:'10',2:'100',3:'1,000',4:'10,000',5:'100,000'};
- for(let k=1;k<=5;k++){if(k<e[0]-1e-6||k>e[n]+1e-6)continue;s+=T(x(k),Tp+S+16,lab[k],{a:'middle'})+T(Lm-7,y(k)+4,k===1?'≤ 10':lab[k],{a:'end'})+`<line x1="${x(k)}" x2="${x(k)}" y1="${Tp+S}" y2="${Tp+S+4}" stroke="${C.ink2}"/><line x1="${Lm-4}" x2="${Lm}" y1="${y(k)}" y2="${y(k)}" stroke="${C.ink2}"/>`}
+ for(let k=1;k<=5;k++){if(k<e[0]-1e-6||k>e[n]+1e-6)continue;s+=T(x(k),Tp+S+16,lab[k],{a:'middle'})+T(Lm-7,y(k)+4,lab[k],{a:'end'})+`<line x1="${x(k)}" x2="${x(k)}" y1="${Tp+S}" y2="${Tp+S+4}" stroke="${C.ink2}"/><line x1="${Lm-4}" x2="${Lm}" y1="${y(k)}" y2="${y(k)}" stroke="${C.ink2}"/>`}
  s+=`<rect x="${Lm+10}" y="${Tp+10}" width="128" height="26" rx="4" fill="#fff" fill-opacity=".92"/>`+T(Lm+20,Tp+28,`Spearman ρ = ${f3(d.spearman_rho)}`,{c:'lb',w:600});
  s+=T(Lm+S/2,Tp+S+36,d.x_label,{a:'middle'})+T(13,Tp+S/2,d.y_label,{a:'middle',rot:-90});
  return SVG(size,Tp+S+44,s,`Estimated vs measured NT-proBNP, ${fi(d.n_ecgs)} ECGs, Spearman rho ${f3(d.spearman_rho)}`)}
 $('#dens-sub').textContent=`Estimates track measured NT-proBNP (Spearman ρ = ${f3(D.density.spearman_rho)}).`;
-$('#dens-note').textContent=`One blob per grid cell; size and colour scale with the number of ECGs. ${fi(D.density.n_ecgs)} ECGs, log axes. ${D.density.note} The bottom row holds estimates at the 10 pg/mL floor. Not a calibration plot.`;
+$('#dens-note').textContent=`One blob per grid cell; size and colour scale with the number of ECGs. ${fi(D.density.n_ecgs)} ECGs, log axes. ${D.density.note} Not a calibration plot.`;
 
 /* rule-out */
 const RO=D.rule_out_decision,RC=RO.counts,RD=op('rule_out_lt300','default');
